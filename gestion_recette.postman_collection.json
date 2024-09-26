@@ -1,0 +1,161 @@
+{
+  "info": {
+    "_postman_id": "1e3e7b47-5e0e-4ba1-a7dd-fc7aa2f128af",
+    "name": "gestion_recette",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38098614"
+  },
+  "item": [
+    {
+      "name": "Get_Recipes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "{\r",
+              "    \"title\": \"Titre de la recette\",\r",
+              "    \"description\": \"Description de la recette\",\r",
+              "    \"date\": \"2024-09-15\"\r",
+              "}\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"\",\r\n  \"description\":12,\r\n  \"date\": \"2024-09-06\"\r\n}\r\n\r\n    ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/recipes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "recipes"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get_Recipes_By_Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "{\r",
+              "    \"title\": \"Titre de la recette\",\r",
+              "    \"description\": \"Description de la recette\",\r",
+              "    \"date\": \"2024-09-15\"\r",
+              "}\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"\",\r\n  \"description\":12,\r\n  \"date\": \"2024-09-06\"\r\n}\r\n\r\n    ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/recipes/9",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "recipes", "9"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST_Recipes",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Poisson fumeé\",\r\n    \"description\": \"poisson\",\r\n    \"date\": \"2024-08-02\",\r\n    \"id_categorie\":2\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/recipes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "recipes"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT_Recipes",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Poisson fumeé\",\r\n    \"description\": \"poisson-grillé\",\r\n    \"date\": \"2024-08-02\",\r\n    \"id_categorie\":5\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/recipes/7",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "recipes", "7"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE_Recipes",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/api/recipes/7",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "recipes", "7"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

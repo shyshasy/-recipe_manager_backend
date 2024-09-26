@@ -1,13 +1,11 @@
 import db from '../config/db.js';
 
 class Recipe {
-  // Récupérer toutes les recettes
   static async getAllRecipes() {
     const [results] = await db.query('SELECT * FROM recipes');
     return results;
   }
 
-  // Récupérer une recette par ID
   static async getRecipeById(id) {
     const [results] = await db.query('SELECT * FROM recipes WHERE id = ?', [
       id,
@@ -15,25 +13,22 @@ class Recipe {
     return results.length > 0 ? results[0] : null;
   }
 
-  // Créer une nouvelle recette
-  static async createRecipe(title, description, date) {
+  static async createRecipe(title, description, date, id_categorie) {
     const [result] = await db.query(
-      'INSERT INTO recipes (title, description, date) VALUES (?, ?, ?)',
-      [title, description, date]
+      'INSERT INTO recipes (title, description, date, id_categorie) VALUES (?, ?, ?, ?)',
+      [title, description, date, id_categorie]
     );
     return result.insertId;
   }
 
-  // Mettre à jour une recette
-  static async updateRecipe(id, title, description, date) {
+  static async updateRecipe(id, title, description, date, id_categorie) {
     const [result] = await db.query(
-      'UPDATE recipes SET title = ?, description = ?, date = ? WHERE id = ?',
-      [title, description, date, id]
+      'UPDATE recipes SET title = ?, description = ?, date = ?, id_categorie = ? WHERE id = ?',
+      [title, description, date, id_categorie, id]
     );
     return result.affectedRows;
   }
 
-  // Supprimer une recette
   static async deleteRecipe(id) {
     const [result] = await db.query('DELETE FROM recipes WHERE id = ?', [id]);
     return result.affectedRows;

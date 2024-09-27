@@ -7,13 +7,11 @@ describe('Recipe tests', () => {
     const recipe = {
       title: 'crepe',
       description: 'dessert',
-      date: '2024-6-9',
       id_categorie: 1,
     };
     const result = await Recipe.createRecipe(
       recipe.title,
       recipe.description,
-      recipe.date,
       recipe.id_categorie
     );
 
@@ -26,13 +24,11 @@ describe('Recipe tests', () => {
       const recipe = {
         title: null,
         description: 'dessert',
-        date: '2024-09-08',
         id_categorie: 1,
       };
       await Recipe.createRecipe(
         recipe.title,
         recipe.description,
-        recipe.date,
         recipe.id_categorie
       );
     } catch (error) {
@@ -56,7 +52,6 @@ describe('Recipe tests', () => {
     const updatedRecipe = {
       title: 'Updated Title',
       description: 'Updated Description',
-      date: '2024-07-07',
       id_categorie: 2,
     };
 
@@ -64,18 +59,14 @@ describe('Recipe tests', () => {
       recipeId,
       updatedRecipe.title,
       updatedRecipe.description,
-      updatedRecipe.date,
       updatedRecipe.id_categorie
     );
 
     expect(result).toBeGreaterThan(0);
 
     const recipe = await Recipe.getRecipeById(recipeId);
-
-    const formattedDate = new Date(recipe.date).toISOString().split('T')[0];
     expect(recipe.title).toBe(updatedRecipe.title);
     expect(recipe.description).toBe(updatedRecipe.description);
-    expect(formattedDate).toBe(updatedRecipe.date);
     expect(recipe.id_categorie).toBe(updatedRecipe.id_categorie);
   });
 

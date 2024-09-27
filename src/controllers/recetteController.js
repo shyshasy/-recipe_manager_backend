@@ -41,26 +41,19 @@ export const createRecipe = [
     .isString()
     .notEmpty()
     .withMessage('Description is required'),
-  body('date').isDate().withMessage('Date must be a valid date'),
   body('id_categorie')
     .isInt({ min: 1 })
     .withMessage('id_categorie must be a valid integer'),
   handleValidationErrors,
   async (req, res) => {
-    const { title, description, date, id_categorie } = req.body;
+    const { title, description, id_categorie } = req.body;
     try {
-      const id = await Recipe.createRecipe(
-        title,
-        description,
-        date,
-        id_categorie
-      );
+      const id = await Recipe.createRecipe(title, description, id_categorie);
       res.status(201).json({
         message: 'Recipe successfully created!',
         id,
         title,
         description,
-        date,
         id_categorie,
       });
     } catch (err) {
@@ -76,7 +69,6 @@ export const updateRecipe = [
     .optional()
     .isString()
     .withMessage('Description must be a string'),
-  body('date').optional().isDate().withMessage('Date must be a valid date'),
   body('id_categorie')
     .optional()
     .isInt({ min: 1 })
@@ -84,13 +76,12 @@ export const updateRecipe = [
   handleValidationErrors,
   async (req, res) => {
     const { id } = req.params;
-    const { title, description, date, id_categorie } = req.body;
+    const { title, description, id_categorie } = req.body;
     try {
       const affectedRows = await Recipe.updateRecipe(
         id,
         title,
         description,
-        date,
         id_categorie
       );
       if (affectedRows === 0) {

@@ -6,13 +6,15 @@ describe('Recipe tests', () => {
   it('can create a recipe', async () => {
     const recipe = {
       title: 'crepe',
-      description: 'dessert',
+      ingredients: 'flour, milk, eggs',
       id_categorie: 1,
+      type: 'Dessert', // Ajout du type ici
     };
     const result = await Recipe.createRecipe(
       recipe.title,
-      recipe.description,
-      recipe.id_categorie
+      recipe.ingredients,
+      recipe.id_categorie,
+      recipe.type // Passer le type ici
     );
 
     expect(result).not.toBeNull();
@@ -23,13 +25,15 @@ describe('Recipe tests', () => {
     try {
       const recipe = {
         title: null,
-        description: 'dessert',
+        ingredients: 'flour, milk, eggs',
         id_categorie: 1,
+        type: 'Dessert', // Ajout du type ici
       };
       await Recipe.createRecipe(
         recipe.title,
-        recipe.description,
-        recipe.id_categorie
+        recipe.ingredients,
+        recipe.id_categorie,
+        recipe.type // Passer le type ici
       );
     } catch (error) {
       expect(error).toBeDefined();
@@ -51,23 +55,26 @@ describe('Recipe tests', () => {
   it('can update a recipe', async () => {
     const updatedRecipe = {
       title: 'Updated Title',
-      description: 'Updated Description',
+      ingredients: 'Updated Ingredients',
       id_categorie: 2,
+      type: 'Main Course', // Ajout du type ici
     };
 
     const result = await Recipe.updateRecipe(
       recipeId,
       updatedRecipe.title,
-      updatedRecipe.description,
-      updatedRecipe.id_categorie
+      updatedRecipe.ingredients,
+      updatedRecipe.id_categorie,
+      updatedRecipe.type // Passer le type ici
     );
 
     expect(result).toBeGreaterThan(0);
 
     const recipe = await Recipe.getRecipeById(recipeId);
     expect(recipe.title).toBe(updatedRecipe.title);
-    expect(recipe.description).toBe(updatedRecipe.description);
+    expect(recipe.ingredients).toBe(updatedRecipe.ingredients);
     expect(recipe.id_categorie).toBe(updatedRecipe.id_categorie);
+    expect(recipe.type).toBe(updatedRecipe.type); // Vérification du type ici
   });
 
   it('can delete a recipe', async () => {

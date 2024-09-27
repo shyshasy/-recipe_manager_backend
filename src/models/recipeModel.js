@@ -13,18 +13,18 @@ class Recipe {
     return results.length > 0 ? results[0] : null;
   }
 
-  static async createRecipe(title, description, id_categorie) {
+  static async createRecipe(title, ingredients, id_categorie, type) {
     const [result] = await db.query(
-      'INSERT INTO recipes (title, description, id_categorie) VALUES (?, ?, ?)',
-      [title, description, id_categorie]
+      'INSERT INTO recipes (title, ingredients, id_categorie, type) VALUES (?, ?, ?, ?)',
+      [title, ingredients, id_categorie, type]
     );
     return result.insertId;
   }
 
-  static async updateRecipe(id, title, description, id_categorie) {
+  static async updateRecipe(id, title, ingredients, id_categorie, type) {
     const [result] = await db.query(
-      'UPDATE recipes SET title = ?, description = ?, id_categorie = ? WHERE id = ?',
-      [title, description, id_categorie, id]
+      'UPDATE recipes SET title = ?, ingredients = ?, id_categorie = ?, type = ? WHERE id = ?',
+      [title, ingredients, id_categorie, type, id]
     );
     return result.affectedRows;
   }

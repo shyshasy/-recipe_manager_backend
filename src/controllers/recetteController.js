@@ -37,24 +37,29 @@ export const getRecipeById = [
 
 export const createRecipe = [
   body('title').isString().notEmpty().withMessage('Title is required'),
-  body('description')
+  body('ingredients')
     .isString()
     .notEmpty()
-    .withMessage('Description is required'),
+    .withMessage('Ingredients are required'),
   body('id_categorie')
     .isInt({ min: 1 })
     .withMessage('id_categorie must be a valid integer'),
+  body('type')
+    .isString()
+    .notEmpty()
+    .withMessage('Type is required'),
   handleValidationErrors,
   async (req, res) => {
-    const { title, description, id_categorie } = req.body;
+    const { title, ingredients, id_categorie, type } = req.body; // Ajout de type ici
     try {
-      const id = await Recipe.createRecipe(title, description, id_categorie);
+      const id = await Recipe.createRecipe(title, ingredients, id_categorie, type); // Passer type ici
       res.status(201).json({
         message: 'Recipe successfully created!',
         id,
         title,
-        description,
+        ingredients,
         id_categorie,
+        type, // Inclure type dans la réponse
       });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -65,24 +70,29 @@ export const createRecipe = [
 export const updateRecipe = [
   param('id').isInt({ min: 1 }).withMessage('ID must be a positive integer'),
   body('title').optional().isString().withMessage('Title must be a string'),
-  body('description')
+  body('ingredients')
     .optional()
     .isString()
-    .withMessage('Description must be a string'),
+    .withMessage('Ingredients must be a string'),
   body('id_categorie')
     .optional()
     .isInt({ min: 1 })
     .withMessage('id_categorie must be a valid integer'),
+  body('type')
+    .optional()
+    .isString()
+    .withMessage('Type must be a string'), // Ajout de type ici
   handleValidationErrors,
   async (req, res) => {
     const { id } = req.params;
-    const { title, description, id_categorie } = req.body;
+    const { title, ingredients, id_categorie, type } = req.body; // Inclure type
     try {
       const affectedRows = await Recipe.updateRecipe(
         id,
         title,
-        description,
-        id_categorie
+        ingredients,
+        id_categorie,
+        type // Passer type ici
       );
       if (affectedRows === 0) {
         return res.status(404).json({ message: 'Recipe not found' });

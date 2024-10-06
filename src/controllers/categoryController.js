@@ -1,8 +1,6 @@
-// categoryController.js
 import { body, param, validationResult } from 'express-validator';
-import Category from '../models/categoryModel.js'; // On utilise la classe Category avec méthodes statiques
+import Category from '../models/Category.js'; 
 
-// Middleware de validation des erreurs
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -11,7 +9,6 @@ const handleValidationErrors = (req, res, next) => {
   next();
 };
 
-// Récupérer toutes les catégories
 export const getAllCategories = async (req, res) => {
   try {
     const categories = await Category.getAllCategories();
@@ -21,9 +18,8 @@ export const getAllCategories = async (req, res) => {
   }
 };
 
-// Récupérer une catégorie par ID avec validation de l'ID
 export const getCategoryById = [
-  param('id').isInt({ min: 1 }).withMessage('ID must be a positive integer'), // Validation améliorée pour s'assurer que l'ID est un entier positif
+  param('id').isInt({ min: 1 }).withMessage('ID must be a positive integer'),
   handleValidationErrors,
   async (req, res) => {
     const { id } = req.params;
@@ -39,22 +35,21 @@ export const getCategoryById = [
   },
 ];
 
-// Créer une nouvelle catégorie avec validation des champs
 export const createCategory = [
-  body('name')
+  body('title') 
     .isString()
-    .withMessage('Name must be a string')
+    .withMessage('Title must be a string')
     .notEmpty()
-    .withMessage('Name is required'),
+    .withMessage('Title is required'),
   handleValidationErrors,
   async (req, res) => {
-    const { name } = req.body;
+    const { title } = req.body; 
     try {
-      const id = await Category.createCategory(name);
+      const id = await Category.createCategory(title);
       res.status(201).json({
         message: 'Category successfully created!',
         id,
-        name,
+        title, 
       });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -62,16 +57,15 @@ export const createCategory = [
   },
 ];
 
-// Mettre à jour une catégorie existante avec validation
 export const updateCategory = [
   param('id').isInt({ min: 1 }).withMessage('ID must be a positive integer'),
-  body('name').optional().isString().withMessage('Name must be a string'),
+  body('title').optional().isString().withMessage('Title must be a string'), 
   handleValidationErrors,
   async (req, res) => {
     const { id } = req.params;
-    const { name } = req.body;
+    const { title } = req.body; 
     try {
-      const affectedRows = await Category.updateCategory(id, name);
+      const affectedRows = await Category.updateCategory(id, title);
       if (affectedRows === 0) {
         return res.status(404).json({ message: 'Category not found' });
       }
@@ -82,7 +76,6 @@ export const updateCategory = [
   },
 ];
 
-// Supprimer une catégorie avec validation de l'ID
 export const deleteCategory = [
   param('id').isInt({ min: 1 }).withMessage('ID must be a positive integer'),
   handleValidationErrors,

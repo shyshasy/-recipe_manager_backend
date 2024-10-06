@@ -1,21 +1,21 @@
-import Category from '../src/models/categoryModel.js';
+import Category from '../src/models/Category.js';
 
 describe('Category tests', () => {
   let categoryId = null;
 
   it('can be created', async () => {
-    const category = { name: 'Desserts' };
-    const result = await Category.createCategory(category.name);
+    const category = { title: 'Desserts' }; // Updated from name to title
+    const result = await Category.createCategory(category.title);
     expect(result).not.toBeNull();
     categoryId = result;
   });
 
   it('can not be created with invalid data', async () => {
     try {
-      const category = { name: null };
-      await Category.createCategory(category.name);
+      const category = { title: null }; // Updated from name to title
+      await Category.createCategory(category.title);
     } catch (error) {
-      expect(error.message).toMatch(/Column 'name' cannot be null/);
+      expect(error.message).toMatch(/Column 'title' cannot be null/); // Updated error message
     }
   });
 
@@ -28,18 +28,18 @@ describe('Category tests', () => {
   it('can get a category by id', async () => {
     const getCategory = await Category.getCategoryById(categoryId);
     expect(getCategory).not.toBeNull();
-    expect(getCategory.name).toBe('Desserts');
+    expect(getCategory.title).toBe('Desserts'); // Updated from name to title
   });
 
   it('can be updated', async () => {
-    const updatedCategory = { name: 'Sweets' };
+    const updatedCategory = { title: 'Sweets' }; // Updated from name to title
     const result = await Category.updateCategory(
       categoryId,
-      updatedCategory.name
+      updatedCategory.title // Updated from name to title
     );
     expect(result).toBe(1);
     const category = await Category.getCategoryById(categoryId);
-    expect(category.name).toBe('Sweets');
+    expect(category.title).toBe('Sweets'); // Updated from name to title
   });
 
   it('can delete a category', async () => {

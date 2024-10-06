@@ -1,5 +1,5 @@
 import { body, param, validationResult } from 'express-validator';
-import Recipe from '../models/recipeModel.js';
+import Recipe from '../models/Recipe.js';
 
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
@@ -44,15 +44,17 @@ export const createRecipe = [
   body('id_categorie')
     .isInt({ min: 1 })
     .withMessage('id_categorie must be a valid integer'),
-  body('type')
-    .isString()
-    .notEmpty()
-    .withMessage('Type is required'),
+  body('type').isString().notEmpty().withMessage('Type is required'),
   handleValidationErrors,
   async (req, res) => {
     const { title, ingredients, id_categorie, type } = req.body; // Ajout de type ici
     try {
-      const id = await Recipe.createRecipe(title, ingredients, id_categorie, type); // Passer type ici
+      const id = await Recipe.createRecipe(
+        title,
+        ingredients,
+        id_categorie,
+        type
+      ); // Passer type ici
       res.status(201).json({
         message: 'Recipe successfully created!',
         id,
@@ -78,10 +80,7 @@ export const updateRecipe = [
     .optional()
     .isInt({ min: 1 })
     .withMessage('id_categorie must be a valid integer'),
-  body('type')
-    .optional()
-    .isString()
-    .withMessage('Type must be a string'), // Ajout de type ici
+  body('type').optional().isString().withMessage('Type must be a string'), // Ajout de type ici
   handleValidationErrors,
   async (req, res) => {
     const { id } = req.params;

@@ -14,18 +14,18 @@ class Category {
     return results.length > 0 ? results[0] : null;
   }
 
-  static async createCategory(name) {
+  static async createCategory(title) {
     const [result] = await db.query(
-      'INSERT INTO categories (name) VALUES (?)',
-      [name]
+      'INSERT INTO categories (title) VALUES (?)', // Updated 'name' to 'title'
+      [title]
     );
     return result.insertId;
   }
 
-  static async updateCategory(id, name) {
+  static async updateCategory(id, title) {
     const [result] = await db.query(
-      'UPDATE categories SET name = ? WHERE categorie_id = ?',
-      [name, id]
+      'UPDATE categories SET title = ? WHERE categorie_id = ?', // Updated 'name' to 'title'
+      [title, id]
     );
     return result.affectedRows;
   }

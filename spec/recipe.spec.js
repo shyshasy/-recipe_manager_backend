@@ -1,14 +1,14 @@
-import Recipe from '../src/models/Recipe.js';
+import Recipe from "../src/models/Recipe.js";
 
-describe('Recipe tests', () => {
+describe("Recipe tests", () => {
   let recipeId = null;
 
-  it('can create a recipe', async () => {
+  it("can create a recipe", async () => {
     const recipe = {
-      title: 'crepe',
-      ingredients: 'flour, milk, eggs',
+      title: "crepe",
+      ingredients: "flour, milk, eggs",
       id_categorie: 1,
-      type: 'Dessert', // Ajout du type ici
+      type: "Dessert", // Ajout du type ici
     };
     const result = await Recipe.createRecipe(
       recipe.title,
@@ -21,13 +21,13 @@ describe('Recipe tests', () => {
     recipeId = result;
   });
 
-  it('cannot create a recipe with null title', async () => {
+  it("cannot create a recipe with null title", async () => {
     try {
       const recipe = {
         title: null,
-        ingredients: 'flour, milk, eggs',
+        ingredients: "flour, milk, eggs",
         id_categorie: 1,
-        type: 'Dessert', // Ajout du type ici
+        type: "Dessert", // Ajout du type ici
       };
       await Recipe.createRecipe(
         recipe.title,
@@ -40,24 +40,24 @@ describe('Recipe tests', () => {
     }
   });
 
-  it('can get all recipes', async () => {
+  it("can get all recipes", async () => {
     const getAll = await Recipe.getAllRecipes();
     expect(Array.isArray(getAll)).toBe(true);
     expect(getAll.length).toBeGreaterThan(0);
   });
 
-  it('can get a recipe by id', async () => {
+  it("can get a recipe by id", async () => {
     const recipe = await Recipe.getRecipeById(recipeId);
     expect(recipe).not.toBeNull();
     expect(recipe.id).toBe(recipeId);
   });
 
-  it('can update a recipe', async () => {
+  it("can update a recipe", async () => {
     const updatedRecipe = {
-      title: 'Updated Title',
-      ingredients: 'Updated Ingredients',
+      title: "Updated Title",
+      ingredients: "Updated Ingredients",
       id_categorie: 2,
-      type: 'Main Course', // Ajout du type ici
+      type: "Main Course", // Ajout du type ici
     };
 
     const result = await Recipe.updateRecipe(
@@ -77,7 +77,7 @@ describe('Recipe tests', () => {
     expect(recipe.type).toBe(updatedRecipe.type); // Vérification du type ici
   });
 
-  it('can delete a recipe', async () => {
+  it("can delete a recipe", async () => {
     await Recipe.deleteRecipe(recipeId);
     const deletedRecipe = await Recipe.getRecipeById(recipeId);
     expect(deletedRecipe).toBeNull();

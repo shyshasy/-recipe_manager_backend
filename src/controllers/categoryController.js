@@ -1,5 +1,5 @@
-import { body, param, validationResult } from 'express-validator';
-import Category from '../models/Category.js'; 
+import { body, param, validationResult } from "express-validator";
+import Category from "../models/Category.js";
 
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
@@ -19,14 +19,14 @@ export const getAllCategories = async (req, res) => {
 };
 
 export const getCategoryById = [
-  param('id').isInt({ min: 1 }).withMessage('ID must be a positive integer'),
+  param("id").isInt({ min: 1 }).withMessage("ID must be a positive integer"),
   handleValidationErrors,
   async (req, res) => {
     const { id } = req.params;
     try {
       const category = await Category.getCategoryById(id);
       if (!category) {
-        return res.status(404).json({ message: 'Category not found' });
+        return res.status(404).json({ message: "Category not found" });
       }
       res.json(category);
     } catch (err) {
@@ -36,20 +36,20 @@ export const getCategoryById = [
 ];
 
 export const createCategory = [
-  body('title') 
+  body("title")
     .isString()
-    .withMessage('Title must be a string')
+    .withMessage("Title must be a string")
     .notEmpty()
-    .withMessage('Title is required'),
+    .withMessage("Title is required"),
   handleValidationErrors,
   async (req, res) => {
-    const { title } = req.body; 
+    const { title } = req.body;
     try {
       const id = await Category.createCategory(title);
       res.status(201).json({
-        message: 'Category successfully created!',
+        message: "Category successfully created!",
         id,
-        title, 
+        title,
       });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -58,18 +58,18 @@ export const createCategory = [
 ];
 
 export const updateCategory = [
-  param('id').isInt({ min: 1 }).withMessage('ID must be a positive integer'),
-  body('title').optional().isString().withMessage('Title must be a string'), 
+  param("id").isInt({ min: 1 }).withMessage("ID must be a positive integer"),
+  body("title").optional().isString().withMessage("Title must be a string"),
   handleValidationErrors,
   async (req, res) => {
     const { id } = req.params;
-    const { title } = req.body; 
+    const { title } = req.body;
     try {
       const affectedRows = await Category.updateCategory(id, title);
       if (affectedRows === 0) {
-        return res.status(404).json({ message: 'Category not found' });
+        return res.status(404).json({ message: "Category not found" });
       }
-      res.json({ message: 'Category updated successfully' });
+      res.json({ message: "Category updated successfully" });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -77,16 +77,16 @@ export const updateCategory = [
 ];
 
 export const deleteCategory = [
-  param('id').isInt({ min: 1 }).withMessage('ID must be a positive integer'),
+  param("id").isInt({ min: 1 }).withMessage("ID must be a positive integer"),
   handleValidationErrors,
   async (req, res) => {
     const { id } = req.params;
     try {
       const affectedRows = await Category.deleteCategory(id);
       if (affectedRows === 0) {
-        return res.status(404).json({ message: 'Category not found' });
+        return res.status(404).json({ message: "Category not found" });
       }
-      res.json({ message: 'Category deleted successfully' });
+      res.json({ message: "Category deleted successfully" });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

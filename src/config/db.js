@@ -1,5 +1,5 @@
-import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
+import mysql from "mysql2/promise";
+import dotenv from "dotenv";
 
 dotenv.config();
 // Create the connection pool. The pool-specific settings are the defaults
@@ -15,6 +15,6 @@ const connPool = mysql.createPool({
 });
 
 connPool.getConnection().then(() => {
-  console.log('CONNECTED');
+  console.log("CONNECTED");
 });
 export default connPool;

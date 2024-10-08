@@ -9,6 +9,14 @@ const handleValidationErrors = (req, res, next) => {
   next();
 };
 
+// Vérification de l'unicité du titre dans la base de données
+const checkUniqueTitle = async (title, { req }) => {
+  const existingCategory = await Category.findCategoryByTitle(title);
+  if (existingCategory) {
+    throw new Error("Title must be unique");
+  }
+};
+
 export const getAllCategories = async (req, res) => {
   try {
     const categories = await Category.getAllCategories();
@@ -40,7 +48,10 @@ export const createCategory = [
     .isString()
     .withMessage("Title must be a string")
     .notEmpty()
-    .withMessage("Title is required"),
+    .withMessage("Title is required")
+    .isLength({ max: 100 })
+    .withMessage("Title must not exceed 100 characters")
+    .custom(checkUniqueTitle), // Vérification de l'unicité
   handleValidationErrors,
   async (req, res) => {
     const { title } = req.body;
@@ -59,7 +70,21 @@ export const createCategory = [
 
 export const updateCategory = [
   param("id").isInt({ min: 1 }).withMessage("ID must be a positive integer"),
-  body("title").optional().isString().withMessage("Title must be a string"),
+  body("title")
+    .optional()
+    .isString()
+    .withMessage("Title must be a string")
+    .isLength({ max: 100 })
+    .withMessage("Title must not exceed 100 characters")
+    .custom(async (title, { req }) => {
+      // Vérification d'unicité uniquement si un titre est fourni
+      if (title) {
+        const existingCategory = await Category.findCategoryByTitle(title);
+        if (existingCategory && existingCategory.id !== parseInt(req.params.id)) {
+          throw new Error("Title must be unique");
+        }
+      }
+    }),
   handleValidationErrors,
   async (req, res) => {
     const { id } = req.params;

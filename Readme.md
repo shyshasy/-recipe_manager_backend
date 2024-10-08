@@ -1,4 +1,4 @@
-# API de Gestion des Recettes
+# Recipe Manager Backend
 
 Cette API permet de gérer des recettes de cuisine, incluant la création, la lecture, la mise à jour et la suppression des recettes (opérations CRUD). L'API utilise une base de données MySQL pour stocker les recettes, et inclut des validations des données grâce à express-validator.
 
@@ -12,11 +12,11 @@ Cette API permet de gérer des recettes de cuisine, incluant la création, la le
 1. Cloner le projet :
 
 ```bash
-git clone https://github.com/Mamoudou12/API_gestion_recette.git
+git clone https://github.com/shyshasy/-recipe_manager_backend.git
 ```
 
 ```bash
-cd API_gestion_recette
+cd recipe_manager_backend
 ```
 
 2. Installer les dépendances :
@@ -27,7 +27,17 @@ npm install
 
 3. Configurer la base de données :
 
-- Mettre à jour les informations de connexion à la base de données (hôte, utilisateur, mot de passe, nom de la base de données).
+4. Suivez les étapes ci-dessous pour configurer et exécuter le projet en local :
+
+- Renommer le fichier de configuration Repérez le fichier nommé .env.example à la racine du projet et renommez-le en env.
+
+Mise à jour des informations de connexion Ouvrez le fichier .env et mettez à jour les informations de connexion à la base de données avec vos propres paramètres. Voici un exemple des configurations à adapter :
+
+`DB_HOST=localhost `
+`DB_USER=your_username`
+` DB_PASSWORD=your_password` 
+`DB_NAME=gestion_recettes`
+
 
 4. Initialiser la base de données :
 
@@ -37,8 +47,10 @@ npm install
 CREATE TABLE recipes (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
-  description TEXT NOT NULL,
-  date DATE NOT NULL
+  ingredients TEXT NOT NULL,
+  type TEXT NOT NULL,
+  id_categorie INT,  
+  FOREIGN KEY (id_categorie) REFERENCES categories(categorie_id)  
 );
 ```
 
@@ -61,14 +73,14 @@ npm start
 {
 "id": 1,
 "title": "Lasagnes",
-"description": "Délicieuses lasagnes faites maison",
-"date": "2023-08-20"
+"type": "dessert",
+"ingredients": "sel"
 },
 {
 "id": 2,
-"title": "Tarte aux pommes",
-"description": "Tarte classique avec des pommes",
-"date": "2023-08-15"
+"title": "Lasagnes",
+"type": "dessert",
+"ingredients": "sel"
 }
 ]
 
@@ -82,8 +94,8 @@ npm start
   {
   "id": 1,
   "title": "Lasagnes",
-  "description": "Délicieuses lasagnes faites maison",
-  "date": "2023-08-20"
+"type": "dessert",
+"ingredients": "sel"
   }
 
 3. Créer une nouvelle recette
@@ -92,9 +104,10 @@ npm start
 - Méthode : POST
 - Corps :
   {
-  "title": "Titre de la recette",
-  "description": "Description de la recette",
-  "date": "YYYY-MM-DD"
+  "title": "Lasagnes",
+  "type": "dessert",
+  "ingredients": "sel"
+  "id_categorie" : "6"
   }
 
 4.  Mettre à jour une recette
@@ -105,9 +118,10 @@ npm start
 - Corps :
 
 {
-"title": "Titre mis à jour",
-"description": "Description mise à jour",
-"date": "YYYY-MM-DD"
+"title": "Lasagnes",
+"type": "dessert",
+"ingredients": "lait"
+"id_categorie" : "6"
 }
 
 - Exemple de réponse :
@@ -159,7 +173,5 @@ npm test
 ```
 
 # Auteurs
-
-[Mamoudou Adama Ba ](https://github.com/Mamoudou12)
 
 [Aichetou Taher Sy ](https://github.com/shyshasy)

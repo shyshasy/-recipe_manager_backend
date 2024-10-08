@@ -5,9 +5,9 @@ describe("Recipe tests", () => {
 
   it("can create a recipe", async () => {
     const recipe = {
-      title: "crepe",
+      title: "brulè",
       ingredients: "flour, milk, eggs",
-      id_categorie: 1,
+      id_categorie: 6,
       type: "Dessert", // Ajout du type ici
     };
     const result = await Recipe.createRecipe(
@@ -56,7 +56,7 @@ describe("Recipe tests", () => {
     const updatedRecipe = {
       title: "Updated Title",
       ingredients: "Updated Ingredients",
-      id_categorie: 2,
+      id_categorie: 6,
       type: "Main Course", // Ajout du type ici
     };
 
